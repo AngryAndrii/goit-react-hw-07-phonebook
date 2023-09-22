@@ -7,5 +7,3 @@ export const getContacts = async () => {
   console.log(resp);
   return resp;
 };
-
-getContacts();
