@@ -3,8 +3,9 @@ import {
   createAsyncThunk,
   createSlice,
 } from '@reduxjs/toolkit';
+import { useDispatch, useSelector } from 'react-redux';
 import { getContacts } from 'service/getContacts';
-// import { contactsReducer } from './contactsSlice';
+import contactsReducer from './contactsSlice';
 // import { filterReducer } from './filterSlice';
 
 // export const store = configureStore({
@@ -15,41 +16,10 @@ import { getContacts } from 'service/getContacts';
 // });
 
 export const store = configureStore({
-  reducer: {},
-});
-
-export const getContactsThunk = createAsyncThunk(
-  'contacts/getContacts',
-  async () => {
-    return await getContacts();
-  }
-);
-
-const contactsSlice = createSlice({
-  name: 'contacts',
-  initialState: {
-    contacts: [],
-    isLoading: false,
-    error: null,
-  },
-  reducers: {
-    // Виконається в момент старту HTTP-запиту
-    fetchingInProgress(state) {
-      state.isLoading = true;
-    },
-    // Виконається якщо HTTP-запит завершився успішно
-    fetchingSuccess(state, action) {
-      state.isLoading = false;
-      state.error = null;
-      state.items = action.payload;
-    },
-    // Виконається якщо HTTP-запит завершився з помилкою
-    fetchingError(state, action) {
-      state.isLoading = false;
-      state.error = action.payload;
-    },
+  reducer: {
+    contacts: contactsReducer,
   },
 });
 
-export const { fetchingInProgress, fetchingSuccess, fetchingError } =
-  contactsSlice.actions;
+// const dispatch = useDispatch();
+// const contacts = useSelector(state => state.contacts);
