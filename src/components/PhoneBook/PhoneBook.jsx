@@ -1,6 +1,8 @@
+import { useEffect } from 'react';
 import { StyledForm } from './PhoneBook.style';
 import { useDispatch, useSelector } from 'react-redux';
 import { addContact } from 'redux/contactsSlice';
+import { fetchContacts } from 'service/getContacts';
 
 export const PhoneBook = () => {
   const dispatch = useDispatch();
@@ -11,21 +13,22 @@ export const PhoneBook = () => {
     const form = event.target;
     const name = form.name.value;
     const number = form.number.value;
-    addToList(name, number, form);
+    // addToList(name, number, form);
   };
 
-  const addToList = (name, number, form) => {
-    const isIn = contacts.some(
-      el => el.name.toLowerCase() === name.toLowerCase()
-    );
-    if (isIn) {
-      alert(`${name} is already in contacts.`);
-      return;
-    }
-    dispatch(addContact(name, number));
-    form.reset();
-  };
+  // const addToList = (name, number, form) => {
+  //   const isIn = contacts.some(
+  //     el => el.name.toLowerCase() === name.toLowerCase()
+  //   );
+  //   if (isIn) {
+  //     alert(`${name} is already in contacts.`);
+  //     return;
+  //   }
+  //   dispatch(addContact(name, number));
+  //   form.reset();
+  // };
   //
+
   return (
     <>
       <StyledForm action="" onSubmit={handleSubmit}>
