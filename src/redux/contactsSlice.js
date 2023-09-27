@@ -16,8 +16,11 @@ const contactsSlice = createSlice({
         state.status = 'loading';
       })
       .addCase(fetchContacts.fulfilled, (state, action) => {
-        state.status = 'resolved';
-        state.contacts = action.payload;
+        return {
+          ...state,
+          status: 'resolved',
+          contacts: [action.payload, ...state.contacts],
+        };
       })
       .addCase(fetchContacts.rejected, (state, action) => {})
       .addCase(deleteContact.pending, (state, action) => {

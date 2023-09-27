@@ -17,14 +17,16 @@ export const Contacts = () => {
 
   useEffect(() => {
     dispatch(fetchContacts());
-  }, []);
+  }, [dispatch]);
 
   return (
     <StyledList>
-      {contacts.map(el => (
-        <li key={el.id}>
-          <span>{el.name}</span> : {el.phone}
-          <button onClick={() => dispatch(deleteContact(el.id))}>Delete</button>
+      {contacts.map(({ id, name, phone }) => (
+        <li key={id}>
+          <span>{name}</span> : {phone}
+          <button onClick={() => dispatch(deleteContact({ id }))}>
+            Delete
+          </button>
         </li>
       ))}
     </StyledList>
