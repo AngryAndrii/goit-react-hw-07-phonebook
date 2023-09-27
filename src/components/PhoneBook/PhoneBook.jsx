@@ -1,8 +1,7 @@
 import { useEffect } from 'react';
 import { StyledForm } from './PhoneBook.style';
 import { useDispatch, useSelector } from 'react-redux';
-import { addContact } from 'redux/contactsSlice';
-import { fetchContacts } from 'service/getContacts';
+import { fetchContacts, addContact } from 'service/getContacts';
 
 export const PhoneBook = () => {
   const dispatch = useDispatch();
@@ -13,6 +12,11 @@ export const PhoneBook = () => {
     const form = event.target;
     const name = form.name.value;
     const number = form.number.value;
+    const contact = {
+      name: name,
+      phone: number,
+    };
+    dispatch(addContact(contact));
     // addToList(name, number, form);
   };
 
