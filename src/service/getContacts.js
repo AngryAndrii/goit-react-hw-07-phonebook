@@ -19,22 +19,22 @@ export const deleteContact = createAsyncThunk(
   }
 );
 
-// export const addContact = createAsyncThunk(
-//   'contacts/addContact',
-//   async contact => {
-//     const resp = await axios.post(`/contacts`, contact);
-//     return resp;
-//   }
-// );
-
 export const addContact = createAsyncThunk(
   'contacts/addContact',
-  async (contact, thunkAPI) => {
-    try {
-      const response = await axios.post('/contacts', contact);
-      return response.data;
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error.message);
-    }
+  async contact => {
+    const resp = await axios.post(`/contacts`, contact);
+    return resp.data;
   }
 );
+
+// export const addContact = createAsyncThunk(
+//   'contacts/addContact',
+//   async (contact, thunkAPI) => {
+//     try {
+//       const response = await axios.post('/contacts', contact);
+//       return response.data;
+//     } catch (error) {
+//       return thunkAPI.rejectWithValue(error.message);
+//     }
+//   }
+// );

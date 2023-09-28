@@ -5,33 +5,31 @@ import { fetchContacts, addContact } from 'service/getContacts';
 
 export const PhoneBook = () => {
   const dispatch = useDispatch();
-  const contacts = useSelector(state => state.contacts);
+  const contacts = useSelector(state => state.contacts.contacts);
 
   const handleSubmit = event => {
     event.preventDefault();
     const form = event.target;
     const name = form.name.value;
     const number = form.number.value;
+    addToList(name, number, form);
+  };
+
+  const addToList = (name, number, form) => {
+    const isIn = contacts.some(
+      el => el.name.toLowerCase() === name.toLowerCase()
+    );
+    if (isIn) {
+      alert(`${name} is already in contacts.`);
+      return;
+    }
     const contact = {
       name: name,
       phone: number,
     };
     dispatch(addContact(contact));
-    // addToList(name, number, form);
+    form.reset();
   };
-
-  // const addToList = (name, number, form) => {
-  //   const isIn = contacts.some(
-  //     el => el.name.toLowerCase() === name.toLowerCase()
-  //   );
-  //   if (isIn) {
-  //     alert(`${name} is already in contacts.`);
-  //     return;
-  //   }
-  //   dispatch(addContact(name, number));
-  //   form.reset();
-  // };
-  //
 
   return (
     <>

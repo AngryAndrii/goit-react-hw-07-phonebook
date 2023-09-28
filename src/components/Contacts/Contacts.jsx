@@ -24,9 +24,7 @@ export const Contacts = () => {
       {contacts.map(({ id, name, phone }) => (
         <li key={id}>
           <span>{name}</span> : {phone}
-          <button onClick={() => dispatch(deleteContact({ id }))}>
-            Delete
-          </button>
+          <button onClick={() => dispatch(deleteContact(id))}>Delete</button>
         </li>
       ))}
     </StyledList>
