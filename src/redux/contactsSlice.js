@@ -1,61 +1,57 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, isAnyOf } from '@reduxjs/toolkit';
 
 import { addContact, deleteContact, fetchContacts } from 'service/getContacts';
+
+const handlePending = state => {
+  state.loading = true;
+};
+
+const hadleRejected = state => {
+  state.loading = false;
+};
 
 const contactsSlice = createSlice({
   name: 'contacts',
   initialState: {
     contacts: [],
-    status: null,
+    loading: false,
     error: null,
   },
   reducers: {},
   extraReducers: builder => {
     builder
-      .addCase(fetchContacts.pending, (state, action) => {
-        state.status = 'loading';
-      })
       .addCase(fetchContacts.fulfilled, (state, action) => {
         state.contacts = action.payload;
+        state.loading = false;
+        state.error = null;
       })
-      .addCase(fetchContacts.rejected, (state, action) => {})
-      .addCase(deleteContact.pending, (state, action) => {
-        state.status = 'loading';
-      })
+      .addCase(fetchContacts.rejected, hadleRejected)
       .addCase(deleteContact.fulfilled, (state, action) => {
-        state.status = 'resolved';
+        state.loading = false;
+        state.error = null;
         state.contacts = state.contacts.filter(
           item => item.id !== action.payload.id
         );
       })
-      .addCase(addContact.pending, (state, action) => {
-        state.status = 'loading';
-      })
+      .addCase(deleteContact.rejected, hadleRejected)
       .addCase(addContact.fulfilled, (state, action) => {
         return {
           ...state,
-          status: 'resolved',
+          loading: false,
           contacts: [action.payload, ...state.contacts],
         };
-      });
+      })
+      .addCase(addContact.rejected, hadleRejected)
+      .addMatcher(
+        isAnyOf(fetchContacts, deleteContact, addContact),
+        handlePending
+      )
+      .addMatcher(
+        isAnyOf(fetchContacts, deleteContact, addContact),
+        hadleRejected
+      );
   },
 });
-
-//   {
-//     [fetchContacts.pending]: (state, action) => {
-//       state.status = 'loading';
-//       state.error = null;
-//     },
-//     [fetchContacts.fulfilled]: (state, action) => {
-//       state.status = 'resolved';
-//       state.todos = action.payload;
-//     },
-//     [fetchContacts.rejected]: (state, action) => {},
-//   },
-// });
-
-// export const { fetchingInProgress, fetchingSuccess, fetchingError } =
-//   contactsSlice.actions;
 
 const { reducer: contactsReducer } = contactsSlice;
 export default contactsReducer;
