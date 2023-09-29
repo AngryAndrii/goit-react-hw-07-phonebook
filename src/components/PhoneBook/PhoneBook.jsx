@@ -1,11 +1,11 @@
-import { useEffect } from 'react';
 import { StyledForm } from './PhoneBook.style';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchContacts, addContact } from 'service/getContacts';
+import { addContact } from 'service/getContacts';
+import { selectContacts } from 'redux/selectors';
 
 export const PhoneBook = () => {
   const dispatch = useDispatch();
-  const contacts = useSelector(state => state.contacts.contacts);
+  const contacts = useSelector(selectContacts);
 
   const handleSubmit = event => {
     event.preventDefault();
