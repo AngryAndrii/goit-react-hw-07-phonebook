@@ -1,11 +1,6 @@
-import {
-  configureStore,
-  createAsyncThunk,
-  createSlice,
-} from '@reduxjs/toolkit';
-import { useDispatch, useSelector } from 'react-redux';
-import { getContacts } from 'service/getContacts';
+import { configureStore } from '@reduxjs/toolkit';
 import contactsReducer from './contactsSlice';
+import { filterReducer } from './filterSlice';
 // import { filterReducer } from './filterSlice';
 
 // export const store = configureStore({
@@ -18,6 +13,7 @@ import contactsReducer from './contactsSlice';
 export const store = configureStore({
   reducer: {
     contacts: contactsReducer,
+    filter: filterReducer,
   },
 });
 
