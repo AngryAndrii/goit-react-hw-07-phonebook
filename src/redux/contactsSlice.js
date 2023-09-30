@@ -2,30 +2,32 @@ import { createSlice, isAnyOf } from '@reduxjs/toolkit';
 
 import { addContact, deleteContact, fetchContacts } from 'service/getContacts';
 
+const initialState = {
+  contacts: [],
+  loading: false,
+  error: null,
+};
+
 const handlePending = state => {
   state.loading = true;
 };
 
-const hadleRejected = state => {
+const handleRejected = state => {
   state.loading = false;
 };
 
 const contactsSlice = createSlice({
   name: 'contacts',
-  initialState: {
-    contacts: [],
-    loading: false,
-    error: null,
-  },
+  initialState: initialState,
   reducers: {},
   extraReducers: builder => {
     builder
       .addCase(fetchContacts.fulfilled, (state, action) => {
-        state.contacts = action.payload;
         state.loading = false;
+        state.contacts = action.payload;
         state.error = null;
       })
-      .addCase(fetchContacts.rejected, hadleRejected)
+      .addCase(fetchContacts.rejected, handleRejected)
       .addCase(deleteContact.fulfilled, (state, action) => {
         state.loading = false;
         state.error = null;
@@ -33,7 +35,7 @@ const contactsSlice = createSlice({
           item => item.id !== action.payload.id
         );
       })
-      .addCase(deleteContact.rejected, hadleRejected)
+      .addCase(deleteContact.rejected, handleRejected)
       .addCase(addContact.fulfilled, (state, action) => {
         return {
           ...state,
@@ -41,14 +43,14 @@ const contactsSlice = createSlice({
           contacts: [action.payload, ...state.contacts],
         };
       })
-      .addCase(addContact.rejected, hadleRejected)
+      .addCase(addContact.rejected, handleRejected)
       .addMatcher(
         isAnyOf(fetchContacts, deleteContact, addContact),
         handlePending
       )
       .addMatcher(
         isAnyOf(fetchContacts, deleteContact, addContact),
-        hadleRejected
+        handleRejected
       );
   },
 });
